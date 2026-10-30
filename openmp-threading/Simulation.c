@@ -42,7 +42,7 @@ unsigned long long run_event_based_simulation(Inputs in, SimulationData SD, int 
 	////////////////////////////////////////////////////////////////////////////////
 	unsigned long long verification = 0;
 	int i = 0;
-	#pragma omp parallel for schedule(dynamic,100) reduction(+:verification)
+	#pragma omp parallel for schedule(static) reduction(+:verification)
 	for( i = 0; i < in.lookups; i++ )
 	{
 		#ifdef AML
@@ -142,7 +142,7 @@ unsigned long long run_history_based_simulation(Inputs in, SimulationData SD, in
 
 	// Begin outer lookup loop over particles. This loop is independent.
 	int p = 0;
-	#pragma omp parallel for schedule(dynamic, 100) reduction(+:verification)
+	#pragma omp parallel for schedule(static) reduction(+:verification)
 	for( p = 0; p < in.particles; p++ )
 	{
 		#ifdef AML
@@ -732,7 +732,7 @@ unsigned long long run_event_based_simulation_optimization_1(Inputs in, Simulati
 	////////////////////////////////////////////////////////////////////////////////
 	// Sample Materials and Energies
 	////////////////////////////////////////////////////////////////////////////////
-	#pragma omp parallel for schedule(dynamic, 100)
+	#pragma omp parallel for schedule(static)
 	for( i = 0; i < in.lookups; i++ )
 	{
 		// Set the initial seed value
@@ -801,7 +801,7 @@ unsigned long long run_event_based_simulation_optimization_1(Inputs in, Simulati
 	offset = 0;
 	for( m = 0; m < 12; m++ )
 	{
-		#pragma omp parallel for schedule(dynamic,100) reduction(+:verification)
+		#pragma omp parallel for schedule(static) reduction(+:verification)
 		for( i = offset; i < offset + num_samples_per_mat[m]; i++)
 		{
 			#ifdef AML
